@@ -14,6 +14,8 @@ on:
 jobs:
   release:
     runs-on: ${{ matrix.os }}
+    env:
+      SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.snapcraft_token }}
 
     strategy:
       fail-fast: false
