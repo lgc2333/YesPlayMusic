@@ -18,8 +18,10 @@ jobs:
       SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.snapcraft_token }}
 
     strategy:
+      fail-fast: false
       matrix:
         os: [macos-latest, windows-latest, ubuntu-22.04]
+        # os: [windows-latest]
 
     steps:
       - name: Check out Git repository
@@ -27,11 +29,11 @@ jobs:
         with:
           submodules: 'recursive'
 
-      - name: Install Node.js, NPM and Yarn
-        uses: actions/setup-node@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 16
-          cache: 'yarn'
+          cache: yarn
 
       - name: Install RPM & Pacman (on Ubuntu)
         if: runner.os == 'Linux'
@@ -41,9 +43,11 @@ jobs:
           sudo apt-get install --no-install-recommends -y libarchive-tools &&
           sudo apt-get install --no-install-recommends -y libopenjp2-tools
 
-      - name: Install Snapcraft (on Ubuntu)
-        uses: samuelmeuli/action-snapcraft@v3
-        if: startsWith(matrix.os, 'ubuntu')
+      # - name: Install Snapcraft (on Ubuntu)
+      #   uses: samuelmeuli/action-snapcraft@v1
+      #   if: startsWith(matrix.os, 'ubuntu')
+      #   with:
+      #     snapcraft_token: ${{ secrets.snapcraft_token }}
 
       - id: get_unm_version
         name: Get the installed UNM version

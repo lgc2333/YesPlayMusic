@@ -41,3 +41,14 @@ devenv.local.nix
 
 # pre-commit
 .pre-commit-config.yaml
+
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+.venv
+private

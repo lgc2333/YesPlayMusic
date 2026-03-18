@@ -33,6 +33,7 @@ import expressProxy from 'express-http-proxy';
 import Store from 'electron-store';
 import { createMpris, createDbus } from '@/electron/mpris';
 import { spawn } from 'child_process';
+import { initAmuseServer } from './electron/amuseServer';
 const clc = require('cli-color');
 const log = text => {
   console.log(`${clc.blueBright('[background.js]')} ${text}`);
@@ -81,7 +82,7 @@ const closeOnLinux = (e, win, store) => {
   }
 };
 
-class Background {
+export class Background {
   constructor() {
     this.window = null;
     this.ypmTrayImpl = null;
@@ -168,6 +169,8 @@ class Background {
         });
     });
     this.expressApp = expressApp.listen(27232, '127.0.0.1');
+
+    initAmuseServer(this);
   }
 
   createWindow() {
